@@ -2,7 +2,7 @@ package com.example
 
 import IdAlreadyExitExcetion
 import IdNotFoundException
-import com.example.article.Comment
+import Comment
 import com.example.article.articlePage
 import io.ktor.application.*
 import io.ktor.response.*
@@ -12,19 +12,31 @@ import io.ktor.http.*
 import io.ktor.html.*
 import kotlinx.html.*
 import com.fasterxml.jackson.databind.*
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import htmlDsl
 import io.ktor.jackson.*
 import io.ktor.features.*
 import io.ktor.client.*
 import io.ktor.client.engine.apache.*
 import io.ktor.util.pipeline.*
+import org.jetbrains.exposed.sql.Database
 import java.util.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
+
+fun initdatabase(){
+    val config = HikariConfig("/hikari.properties");
+    config.schema = "public"
+    val dataSourse = HikariDataSource(config);
+    Database.connect(dataSourse);
+}
+
 fun Application.module(testing: Boolean = false) {
+    initdatabase()
     install(ContentNegotiation) {
         jackson {
             enable(SerializationFeature.INDENT_OUTPUT)

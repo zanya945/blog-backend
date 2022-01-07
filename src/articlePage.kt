@@ -1,5 +1,6 @@
 package com.example.article
 
+import Comment
 import java.util.*
 
 data class articlePage (
@@ -10,13 +11,4 @@ data class articlePage (
     val dislike: Int,
     val date: Date,
     val descripton: List<Comment>,
-)
-
-data class Comment(
-    val msgid: Int,
-    val text: String,
-    val messagePerson: String,
-    val commentDate: Date,
-    val like: Int,
-    val dilike: Int,
 )
